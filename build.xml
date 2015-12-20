@@ -310,6 +310,4 @@
         <mkdir dir="${build.reports.xref.dir}"/>
         <jxr:jxr destdir="${build.reports.xref.dir}" sourcepath="${src.main.java.dir}" inputencoding="UTF-8" outputencoding="UTF-8"/>
     </target>
-
-    <target name=""
 </project>

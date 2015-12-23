@@ -100,6 +100,7 @@
 
     <!-- Private targets -->
     <target name="-download-ivy">
+        <mkdir dir="${lib.build.dir}"/>
         <get src="http://repo2.maven.org/maven2/org/apache/ivy/ivy/${project.ivy.version}/ivy-${project.ivy.version}.jar" dest="${lib.build.dir}/ivy-${project.ivy.version}.jar" usetimestamp="true"/>
     </target>
 

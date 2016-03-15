@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright (c) 2012-2015 Matt Bertolini
+ Copyright (c) 2012-2016 Matt Bertolini
 
  Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
  documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
@@ -214,6 +214,13 @@
         </ivy:makepom>
     </target>
 
+    <target name="-authenticate-maven-central">
+        <input message="Enter Maven Central username: " addproperty="maven.username"/>
+        <input message="Enter Maven Central password: " addproperty="maven.password">
+            <handler type="secure"/>
+        </input>
+    </target>
+
     <!-- Public targets -->
     <target name="assemble" description="Assembles the output of this project." depends="-main-jar"/>
     <target name="build" description="Assembles and tests the project." depends="assemble, test"/>
@@ -310,5 +317,11 @@
     <target name="jxr" description="Generates a JXR report for this project." depends="-load-third-party-tasks">
         <mkdir dir="${build.reports.xref.dir}"/>
         <jxr:jxr destdir="${build.reports.xref.dir}" sourcepath="${src.main.java.dir}" inputencoding="UTF-8" outputencoding="UTF-8"/>
+    </target>
+
+    <target name="publish" depends="-init-ivy, assemble, -main-javadoc-jar, -main-sources-jar, -make-pom, -authenticate-maven-central" description="Publish a release to maven central.">
+        <ivy:publish resolver="maven-central-release" pubrevision="${project.version}" status="release" overwrite="false" publishivy="false">
+            <ivy:artifacts pattern="${dist.dir}/[artifact]-[revision](-[classifier]).[ext]"/>
+        </ivy:publish>
     </target>
 </project>
